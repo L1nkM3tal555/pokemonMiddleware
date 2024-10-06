@@ -115,7 +115,7 @@ def getPokemon(id:str)->dict:
                 i = 0
                 while i<len(pokemonsPage) and found == False:
                     pokemon = pokemonsPage[i]
-                    if pokemon["name"] == id:
+                    if pokemon["name"].lower() == id:
                         pokemonStats = req.get(url=pokemon["url"], params=None).json()
                         nombre = id
                         pokeDesk = pokemonStats["id"]
@@ -214,6 +214,7 @@ async def update_pokemon(pokeId: str, pokemon: PokemonUpdate):
 
         fakePokemonDb[id] = storedPokemon
         return JSONResponse(status_code=200, content={"message": "Pokemon updated", "last pokemon":lastPokemon, "pokemon": storedPokemon})
+    
     except HTTPException as http_exc:
         return JSONResponse(
             status_code=http_exc.status_code,
